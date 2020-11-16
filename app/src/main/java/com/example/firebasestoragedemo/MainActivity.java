@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -125,10 +127,10 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             }, 5000);
                             Toast.makeText(MainActivity.this, "Upload successful", Toast.LENGTH_LONG).show();
-                          //  Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
-                            //        taskSnapshot.getDownloadUrl().toString());
+                          Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
+                                taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
                             String uploadId = mDatabaseRef.push().getKey();
-                           // mDatabaseRef.child(uploadId).setValue(upload);
+                            mDatabaseRef.child(uploadId).setValue(upload);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -148,5 +150,7 @@ public class MainActivity extends AppCompatActivity {
         else {
             Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
         }
+
+
     }
 }
